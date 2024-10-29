@@ -1,0 +1,42 @@
+name: Release
+
+on: 
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+env:
+  BUILD_SH: build.sh
+
+jobs:
+  Build:
+    name: "Release"
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - uses: actions/checkout@master
+      - name: 'Build'
+        run: |
+          chmod +x $BUILD_SH
+          ./$BUILD_SH
+
+      - name: 'Release'
+        uses: softprops/action-gh-release@master
+        with:
+          prerelease: false
+          generate_release_notes: false
+          tag_name: 'latest'
+          files: |
+            pkgs-Settings.zip
+            pkgs-R2Config.zip
+            pkgs-Guides.zip
+            pkgs-Magic.zip
+            ovls-Arcane.zip
+            ovls-EdiZon.zip
+            ovls-FPSLocker.zip
+            ovls-ReverseNX-RT.zip
+            ovls-Status-Monitor.zip
+            ovls-sys-clk-oc.zip
+            nros-JKSV.zip
+            sys-sigpatches.zip
